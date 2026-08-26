@@ -57,4 +57,3 @@ while running:
         print(f"{BLUE} :) Thanks for playing!{RESET}")
         break
 
-
