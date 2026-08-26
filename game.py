@@ -1,4 +1,5 @@
 from random import randint
+from utils import calculate_score
 
 RESET  = "\x1b[0m"
 YELLOW = "\x1b[33m"
@@ -32,8 +33,8 @@ while running:
     CORRECT_ANSWER = randint(1, game_option["max"])
 
     print(f"\nI'm thinking of a number between 1 and {game_option['max']}.")
-    for i in range(game_option["attempts"]):
-        user_guess = input(f"Enter your guess {YELLOW}({i+1}/{game_option['attempts']}){RESET}> ")
+    for attempts_used in range(1, game_option["attempts"]):
+        user_guess = input(f"Enter your guess {YELLOW}({attempts_used}/{game_option['attempts']}){RESET}> ")
 
         try:
             user_guess = int(user_guess)
@@ -42,7 +43,9 @@ while running:
             continue
 
         if user_guess == CORRECT_ANSWER:
-            print(f"{GREEN}(+) Yay! you got it!!{RESET}")
+            print(f"{GREEN}(+) Yay! you got it in {attempts_used} attempts!!{RESET}")
+            score = calculate_score(attempts_used, game_option["max"], game_option["multiplier"])
+            print(f"Your score: {score} points")
             break
         else:
             if user_guess > CORRECT_ANSWER:
@@ -54,6 +57,6 @@ while running:
 
     play_again = input(f"\n{YELLOW}Play again? (y/n):{RESET} ").lower().strip()
     if play_again != "y":
-        print(f"{BLUE} :) Thanks for playing!{RESET}")
+        print(f"{BLUE}:) Thanks for playing!{RESET}")
         break
 
