@@ -1,19 +1,5 @@
 from random import randint
-from utils import calculate_score
-
-RESET  = "\x1b[0m"
-YELLOW = "\x1b[33m"
-RED    = "\x1b[31m"
-ORANGE = "\x1b[34m"
-GREEN  = "\x1b[32m"
-BLUE   = "\x1b[35m"
-
-game_settings = {
-    1: {"max": 50, "attempts": 10, "multiplier": 1},
-    2: {"max": 100, "attempts": 7, "multiplier": 2},
-    3: {"max": 200, "attempts": 5, "multiplier": 3}
-}
-
+from utils import *
 
 running = True
 
@@ -35,13 +21,9 @@ while running:
     print(f"\nI'm thinking of a number between 1 and {game_option['max']}.")
     for attempts_used in range(1, game_option["attempts"]):
         user_guess = input(f"Enter your guess {YELLOW}({attempts_used}/{game_option['attempts']}){RESET}> ")
-
-        try:
-            user_guess = int(user_guess)
-        except ValueError:
-            print(f"{RED}(x) Not a valid number!{RESET}")
+        user_guess = input_validator(user_guess)
+        if user_guess == -1:
             continue
-
         if user_guess == CORRECT_ANSWER:
             print(f"{GREEN}(+) Yay! you got it in {attempts_used} attempts!!{RESET}")
             score = calculate_score(attempts_used, game_option["max"], game_option["multiplier"])
